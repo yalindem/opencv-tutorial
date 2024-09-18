@@ -47,22 +47,47 @@ def basics_func():
     #print(arr.min())
     #--------------------------
 
+def show(img):
+    plt.imshow(img)
+    plt.show()
 
 def open_image():
     img = cv2.imread("DATA/00-puppy.jpg")
-    img2 = cv2.imread("DATA/incorrect-path.jpg")
-    plt.imshow(img)
-    plt.show()
+    #img2 = cv2.imread("DATA/incorrect-path.jpg")
+    #plt.imshow(img)
+    #plt.show()
     
     # opencv .> BGR
     # matplotlib -> RGB
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    plt.imshow(img_rgb)
+    #plt.imshow(img_rgb)
+    #plt.show()
+
+    #img_gray = cv2.imread("DATA/00-puppy.jpg", cv2.IMREAD_GRAYSCALE)
+    #plt.imshow(img_gray, cmap="gray")
+    #plt.show()
+
+    img = cv2.resize(img_rgb, (1300, 275))
+    #show(img)
+    w_ratio = 0.5
+    h_ratio = 0.5
+
+    new_img = cv2.resize(img_rgb, (0,0), img_rgb, w_ratio, h_ratio)
+    #show(new_img)
+
+    #new_img = cv2.flip(new_img, 0)
+    #show(new_img)
+    #new_img = cv2.flip(new_img, 1)
+    #show(new_img)
+    #new_img = cv2.flip(new_img, -1)
+    #show(new_img)
+    #cv2.imwrite("new_img.jpg", new_img)
+
+    fig = plt.figure(figsize=(5,4))
+    ax = fig.add_subplot(111)
+    ax.imshow(new_img)
     plt.show()
 
-    img_gray = cv2.imread("DATA/00-puppy.jpg", cv2.IMREAD_GRAYSCALE)
-    plt.imshow(img_gray, cmap="gray")
-    plt.show()
 
 def main():
     #basics_func()
