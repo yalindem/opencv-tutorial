@@ -1,0 +1,11 @@
+Keras
+numpy
+scikit_learn
+pillow
+opencv
+menpo
+matplotlib
+scipy
+scikit-learn
+opencv-python
+opencv-contrib-python
