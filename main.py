@@ -132,12 +132,22 @@ def draw_with_mouse():
         if cv2.waitKey(20) & 0xFF == 27:
             break
 
+def farb_mapping():
+    img = cv2.imread("DATA/00-puppy.jpg")
+    #show(img)
+    img_hls = cv2.cvtColor(img, cv2.COLOR_BGR2HLS)
+    show(img_hls)
+    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    show(img_hsv)
+
+
 def main():
     #basics_func()
     #open_image()
     #draw_geometry()
     #draw_polygon()
-    draw_with_mouse()
+    #draw_with_mouse()
+    farb_mapping()
 
 if __name__ == '__main__':
     main()
