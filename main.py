@@ -5,6 +5,7 @@ from PIL import Image
 
 import cv2
 from numpy.ma.core import shape
+from reportlab.lib.colors import white
 
 
 def basics_func():
@@ -48,8 +49,11 @@ def basics_func():
     #print(arr.min())
     #--------------------------
 
-def show(img):
-    plt.imshow(img)
+def show(img, gray=False):
+    if gray:
+        plt.imshow(img,cmap='gray')
+    else:
+        plt.imshow(img)
     plt.show()
 
 def open_image():
@@ -140,6 +144,48 @@ def farb_mapping():
     img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     show(img_hsv)
 
+def bilder_mischen_und_einfügen():
+    img1 = cv2.imread("DATA/dog_backpack.jpg")
+    img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
+    img2 = cv2.imread("DATA/watermark_no_copy.png")
+    img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
+    #show(img1)
+    #show(img2)
+    img1 = cv2.resize(img1, (1200,1200))
+    img2 = cv2.resize(img2, (1200,1200))
+    blended = cv2.addWeighted(src1=img1, alpha=0.4 , src2=img2, beta = 0.6, gamma=0)
+    show(blended)
+
+def masken():
+    img1 = cv2.imread("DATA/dog_backpack.jpg")
+    img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
+    img2 = cv2.imread("DATA/watermark_no_copy.png")
+    img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
+    # show(img1)
+    # show(img2
+    img2 = cv2.resize(img2, (600, 600))
+    # image1.shape = 1401, 934, 3
+    x_offset = 934-600
+    y_offset = 1401-600
+    #ROI: Region of Interest
+    roi = img1[y_offset:1401, x_offset:934]
+    #show(roi)
+    img2gray = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+    mask_inv = cv2.bitwise_not(img2gray)
+    #show(mask_inv, True)
+    white_background = np.full(img2.shape, 255, dtype=np.uint8)
+    bk = cv2.bitwise_or(white_background, white_background, mask=mask_inv)
+    #show(bk)
+    fg = cv2.bitwise_or(img2, img2, mask=mask_inv)
+    #show(fg)
+    final_roi = cv2.bitwise_or(roi, fg)
+    #show(final_roi)
+
+    large_img = img1
+    small_img = final_roi
+    large_img[y_offset:y_offset+small_img.shape[0],x_offset:x_offset+small_img.shape[1]] = small_img
+    show(large_img)
+
 
 def main():
     #basics_func()
@@ -147,7 +193,9 @@ def main():
     #draw_geometry()
     #draw_polygon()
     #draw_with_mouse()
-    farb_mapping()
+    #farb_mapping()
+    #bilder_mischen_und_einfügen()
+    masken()
 
 if __name__ == '__main__':
     main()
