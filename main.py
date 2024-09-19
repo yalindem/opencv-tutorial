@@ -114,11 +114,29 @@ def draw_polygon():
     img = cv2.polylines(img,[pts],isClosed=True, color=(255,0,0), thickness=10)
     show(img)
 
+img = np.zeros((512,512,3), np.int8)
+
+def draw_circle(event, x, y, flags, param):
+    global img
+    if event == cv2.EVENT_LBUTTONDOWN:
+        img = cv2.circle(img, (x,y), 100, (0,255,0), -1)
+    elif event == cv2.EVENT_RBUTTONDOWN:
+        img = cv2.circle(img, (x, y), 100, (255, 0, 0), -1)
+def draw_with_mouse():
+    cv2.namedWindow(winname="my_drawing")
+    cv2.setMouseCallback("my_drawing", draw_circle)
+
+    while True:
+        cv2.imshow('my_drawing', img)
+        if cv2.waitKey(20) & 0xFF == 27:
+            break
+
 def main():
     #basics_func()
     #open_image()
     #draw_geometry()
-    draw_polygon()
+    #draw_polygon()
+    draw_with_mouse()
 
 if __name__ == '__main__':
     main()
