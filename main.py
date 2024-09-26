@@ -5,7 +5,7 @@ from PIL import Image
 
 import cv2
 from numpy.ma.core import shape
-from reportlab.lib.colors import white
+from reportlab.lib.colors import white, gray
 
 
 def basics_func():
@@ -186,6 +186,15 @@ def masken():
     large_img[y_offset:y_offset+small_img.shape[0],x_offset:x_offset+small_img.shape[1]] = small_img
     show(large_img)
 
+def thresholding():
+    img = cv2.imread("DATA/rainbow.jpg", 0)
+    show(img, gray=True)
+    ret, thresh1 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
+    #ret, thresh1 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV)
+    #ret, thresh1 = cv2.threshold(img, 127, 255, cv2.THRESH_TRUNC)
+    #ret, thresh1 = cv2.threshold(img, 127, 255, cv2.THRESH_TOZERO)
+    #ret, thresh1 = cv2.threshold(img, 127, 255, cv2.THRESH_TOZERO_INV)
+    show(thresh1, gray=True)
 
 def main():
     #basics_func()
@@ -195,7 +204,8 @@ def main():
     #draw_with_mouse()
     #farb_mapping()
     #bilder_mischen_und_einfügen()
-    masken()
+    #masken()
+    thresholding()
 
 if __name__ == '__main__':
     main()
