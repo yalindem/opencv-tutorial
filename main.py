@@ -187,14 +187,22 @@ def masken():
     show(large_img)
 
 def thresholding():
-    img = cv2.imread("DATA/rainbow.jpg", 0)
-    show(img, gray=True)
-    ret, thresh1 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
+    #img = cv2.imread("DATA/rainbow.jpg", 0)
+    #show(img, gray=True)
+    #ret, thresh1 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
     #ret, thresh1 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV)
     #ret, thresh1 = cv2.threshold(img, 127, 255, cv2.THRESH_TRUNC)
     #ret, thresh1 = cv2.threshold(img, 127, 255, cv2.THRESH_TOZERO)
     #ret, thresh1 = cv2.threshold(img, 127, 255, cv2.THRESH_TOZERO_INV)
-    show(thresh1, gray=True)
+    #show(thresh1, gray=True)
+
+    img = cv2.imread("DATA/crossword.jpg", 0)
+    ret, th1 = cv2.threshold(img, 180, 255, cv2.THRESH_BINARY)
+    #show(th1, gray=True)
+    th2 = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 15, 8)
+    show(th2, gray=True)
+    blended = cv2.addWeighted(src1=th1, alpha=0.7, src2=th2, beta=0.3, gamma=0)
+    show(blended, gray=True)
 
 def main():
     #basics_func()
